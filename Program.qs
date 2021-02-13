@@ -2,24 +2,27 @@
 
     open Microsoft.Quantum.Canon;
     open Microsoft.Quantum.Intrinsic;
-    open Microsoft.Quantum.Arrays;
-    open Microsoft.Quantum.Math;
+    open Microsoft.Quantum.Measurement;
 
     @EntryPoint()
-    operation HelloQ() : Unit {
-        Message("Hello quantum world!");
-    }
+    operation HelloQ() : Result {
+        use msg = Qubit();
+        use here = Qubit();
+        use there = Qubit();
 
-    function GlobalFolding(op : (Qubit[]=>Unit is Adj), scaleFactor : Int) 
-    : (Qubit[]=>Unit is Adj) {
-        //Figuring out how many "pairs" of operations to repeat
-        let numPairs = Round((scaleFactor - 1) / 2.0);
+        H(here);
+        return MResetZ(here);
+        // CNOT(here, there);
+        // CNOT(msg, here);
+        // H(msg);
 
-        //[op, adj op, op, adj op,...]
-        let foldedOperationArray = [op] + Flattened(ConstantArray([op, adj op], numPairs));
+        // Z(msg);
 
-        return (BoundA(foldedOperationArray));
-        //return RepeatA(op, scaleFactor, _);
+        // if M(msg) == One  { Z(there); }
+        // if M(here) == One { X(there); }
+
+        // Z(there);
+        // return M(there);
     }
 
 }

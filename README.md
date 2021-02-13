@@ -15,3 +15,17 @@ Playing around with implementing ZNE in Q#  (see unitaryfund/mitiq for Python im
 - Ways to run the circuit (aka executors)
 - Collect and process the noisy data (aka factories)
 
+
+  function GlobalFolding(op : (Qubit[]=>Unit is Adj), scaleFactor : Int) 
+    : (Qubit[]=>Unit is Adj) {
+        //Figuring out how many "pairs" of operations to repeat
+        let numPairs = Round((scaleFactor - 1) / 2.0);
+
+        //[op, adj op, op, adj op,...]
+        let foldedOperationArray = [op] + Flattened(ConstantArray([op, adj op], numPairs));
+
+        return (BoundA(foldedOperationArray));
+        //return RepeatA(op, scaleFactor, _);
+    }
+
+
