@@ -9,23 +9,19 @@ Playing around with implementing ZNE in Q#  (see unitaryfund/mitiq for Python im
 - Q# Notebook
 
 ## What do we need to write??
-- Ways to scale the noise
-    - Global folding
-    - local folding
-- Ways to run the circuit (aka executors)
-- Collect and process the noisy data (aka factories)
 
+1. Ways to scale the noise
 
-  function GlobalFolding(op : (Qubit[]=>Unit is Adj), scaleFactor : Int) 
-    : (Qubit[]=>Unit is Adj) {
-        //Figuring out how many "pairs" of operations to repeat
-        let numPairs = Round((scaleFactor - 1) / 2.0);
+- [x] Global folding
+- [ ] local folding
 
-        //[op, adj op, op, adj op,...]
-        let foldedOperationArray = [op] + Flattened(ConstantArray([op, adj op], numPairs));
+2. Ways to run the circuit (aka executors)
 
-        return (BoundA(foldedOperationArray));
-        //return RepeatA(op, scaleFactor, _);
-    }
+- [-] Noisy simulator! (0.15.210223344-alpha, [link to issue](https://github.com/microsoft/qsharp-runtime/issues/504))
 
+3. Collect and process the noisy data (aka factories)
 
+_DEFIANTLY WRONG_
+
+- [ ] function to collect and average the measurements
+- [ ] function to linear fit the scale value/expectation value pair
