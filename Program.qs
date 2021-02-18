@@ -38,6 +38,17 @@
         // Z(there);
         // return M(there);
     }
+
+    operation ApplyX() : Result {
+        use q = Qubit();
+        X(q);
+        return MResetZ(q);
+        
+        //ApplyToEach(X, q);
+        //MultiM(q);
+        //Reset(q);
+    }
+
     operation ApplyTest(target : Qubit[]) : Unit
     is Adj + Ctl {
         //X(target[0]);
