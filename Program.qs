@@ -9,13 +9,14 @@
 
     @EntryPoint()
     operation CheckFold() : Unit {
-        use q = Qubit[1];
+        use q = Qubit[4];
         ApplyTest(q);
         //let result = MResetZ(q[0]);
         //Message($"{result}");
         GlobalFold(ApplyTest, 3)(q);
-        let result2 = MResetZ(q[0]);
-        Message($"{result2}");
+        let results = MultiM(q);
+        ResetAll(q);
+        Message($"{results}");
     }
     
     
@@ -23,20 +24,17 @@
         use msg = Qubit();
         use here = Qubit();
         use there = Qubit();
-
+        X(msg);
         H(here);
-        return MResetZ(here);
-        // CNOT(here, there);
-        // CNOT(msg, here);
-        // H(msg);
-
-        // Z(msg);
-
-        // if M(msg) == One  { Z(there); }
-        // if M(here) == One { X(there); }
-
-        // Z(there);
-        // return M(there);
+        //return MResetZ(here);
+         CNOT(here, there);
+         CNOT(msg, here);
+         H(msg);
+        Z(msg);
+        if M(msg) == One  { Z(there); }
+        if M(here) == One { X(there); }
+        Z(there);
+         return M(there);
     }
 
     operation ApplyX() : Result {
@@ -53,7 +51,7 @@
     is Adj + Ctl {
         //X(target[0]);
         H(target[0]);
-        //DumpMachine();
+        DumpMachine();
     }
 
 

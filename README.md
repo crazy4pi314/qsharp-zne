@@ -16,7 +16,7 @@ Playing around with implementing ZNE in Q#  (see [unitaryfund/mitiq]() for Pytho
 
 2. Ways to run the circuit (aka executors)
 
-- [x] Noisy simulator! (0.15.210223344-alpha, [link to issue](https://github.com/microsoft/qsharp-runtime/issues/504)). Instructions on how to setup/run this below.
+- [x] Noisy simulator! (0.15.210223541-alpha, [link to issue](https://github.com/microsoft/qsharp-runtime/issues/504)). Instructions on how to setup/run this below.
 
 3. Collect and process the noisy data (aka factories) _DEFIANTLY WRONG_:
 
@@ -32,9 +32,9 @@ Playing around with implementing ZNE in Q#  (see [unitaryfund/mitiq]() for Pytho
    > conda install qutip -c conda-forge
    ```
 
-2. Install the IQSharp tool with a version number matching what you have in the *.csproj here (currently 0.15.210223344-alpha)
+2. Install the IQSharp tool with a version number matching what you have in the *.csproj here (currently 0.15.210223541-alpha)
    ```
-   > dotnet tool install -g Microsoft.Quantum.IQSharp --version 0.15.210223344-alpha
+   > dotnet tool install -g Microsoft.Quantum.IQSharp --version 0.15.210223541-alpha
    ```
 
 3. Clone the IQSharp repo and check out the `cgranade/experimental/opensim` branch
