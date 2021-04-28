@@ -6,52 +6,35 @@
     open Microsoft.Quantum.Math;
     open Microsoft.Quantum.Arrays;
     open Microsoft.Quantum.Diagnostics;
+    open Microsoft.Quantum.Characterization;
 
     @EntryPoint()
-    operation CheckFold() : Unit {
-        use q = Qubit[4];
-        ApplyTest(q);
-        //let result = MResetZ(q[0]);
-        //Message($"{result}");
-        GlobalFold(ApplyTest, 3)(q);
-        let results = MultiM(q);
-        ResetAll(q);
-        Message($"{results}");
-    }
-    
-    
-    operation HelloQ() : Result {
-        use msg = Qubit();
-        use here = Qubit();
-        use there = Qubit();
-        X(msg);
-        H(here);
-        //return MResetZ(here);
-         CNOT(here, there);
-         CNOT(msg, here);
-         H(msg);
-        Z(msg);
-        if M(msg) == One  { Z(there); }
-        if M(here) == One { X(there); }
-        Z(there);
-         return M(there);
+    operation RunZNE(scaleFactor : Int, numQubits : Int) : Double {
+        let initialOperation = ApplyToEachCA(H,_);
+        let oracle = CalculateExpectedValue(initialOperation, _, numQubits);
+        let results = ForEach(oracle, [1, 2, 3, 4, 5]);
+        //Implement classical data fitting with Nelder Meed?
+        //1. Pick a model - exponential?
+        //2. "Fit" that model to the results, return model parameters
+        // a. Need Oracle that takes model and data and calculates the residuals
+        // b. Implement function for NM method that actually takes oracle and returns optimal parameters
+        //3. Evaluate the model at scale factor = 0 to find the ZNE result!
+
+        return 0.0;
     }
 
-    operation ApplyX() : Result {
-        use q = Qubit();
-        X(q);
-        return MResetZ(q);
-        
-        //ApplyToEach(X, q);
-        //MultiM(q);
-        //Reset(q);
+    operation CalculateExpectedValue(
+        op: (Qubit[] => Unit is Adj), scaleFactor : Int, numQubits : Int) 
+    : Double {
+        return EstimateFrequency(GlobalFold(op, scaleFactor), 
+            Measure((ConstantArray(numQubits, PauliI) w/ 0 <- PauliZ),_), numQubits, 10);
     }
 
     operation ApplyTest(target : Qubit[]) : Unit
     is Adj + Ctl {
         //X(target[0]);
         H(target[0]);
-        DumpMachine();
+        //DumpMachine(); TODO: Not working in current alpha
     }
 
 
@@ -66,6 +49,8 @@
         return (BoundA(foldedOperationArray));
         //return RepeatA(op, scaleFactor, _);
     }
+
+
 
 }
 
